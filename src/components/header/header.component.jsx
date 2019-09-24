@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
+import { selectCartHidden } from '../../redux/cart/cart.selectors';
+import { selectCurrentUser } from '../../redux/user/user.selector';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 import { auth } from '../../firebase/firebase.utils';
 // name export
@@ -37,11 +40,11 @@ const Header = ({ currentUser, hidden }) => (
 // allows to access the state - root reducer
 // mapStateToProps can be any name
 // we get 'state' object which is the root reducer
-// instead of (state) you can add nested values. Get this user which is destructed from usrr
-const mapStateToProps = ({user: { currentUser }, cart: { hidden }}) => ({
+// instead of (state) you can add nested values. Get this user which is destructed from user {user: { currentUser }, cart: { hidden }}
+const mapStateToProps = createStructuredSelector ({
     // name of property the same as passed on Header
     // 'state.user' FROM root-reducer.js, 'currentUser' from user.reducer.js
-    currentUser,
-    hidden
+    currentUser: selectCurrentUser,
+    hidden: selectCartHidden
 });
 export default connect(mapStateToProps)(Header);
