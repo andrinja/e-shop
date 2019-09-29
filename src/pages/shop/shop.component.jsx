@@ -7,7 +7,7 @@ import CollectionPage from '../collection/collection.component';
 // access to match object because in App.js Shop page is nested in a route
 // route automatically passes objects in components ar props - match, location, history
 const ShopPage = ({ match }) => {
-    // console.log(match.path)
+     console.log(match.path)
     return (
         <div className="shop-page">
         <Route exact path={`${match.path}`} component={ CollectionsOverview } />

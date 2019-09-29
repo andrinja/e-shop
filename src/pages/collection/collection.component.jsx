@@ -7,17 +7,20 @@ import CollectionItem from '../../components/collection-item/collection-item.com
 import { selectCollection } from '../../redux/shop/shop.selectors';
 
 const CollectionPage = ({ collection }) => {
-    console.log(collection);
+    const { title, items } = collection;
     //console.log(match.params.collectionId)
     return (
         <div className="collection-page">
-            <h2>Collection page</h2>
+            <h2 className="title">{ title }</h2>
+            <div className="items">
+                {
+                    items.map(item => (
+                        <CollectionItem key={ item.id } item={ item }/>
+                    ))
+                }
+            </div>
         </div>
     )
-}
-
-function doSomething() {
-    return 'something'
 }
 
 // 'ownProps' is the props which is from component wrapped in connect
