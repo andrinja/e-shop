@@ -17,10 +17,13 @@ const config = {
     // if false then exist the function
     if(!userAuth) return;
 
+    //const collectionRef = firestore.collection('users');
     
     const userRef = firestore.doc(`users/${userAuth.uid}`);
     // snapshot reference data
     const snapShot = await userRef.get();
+    // const collectionSnapshot = await collectionRef.get();
+    // console.log({collection: collectionSnapshot.docs.map(doc => doc.data())});
 
     // create user ref in database
     if(!snapShot.exists) {
@@ -44,6 +47,24 @@ const config = {
   }
 
   firebase.initializeApp(config);
+
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+  const collectionRef = firestore.collection(collectionKey);
+  // firebase created collection reference 
+  console.log(collectionRef);
+
+  // batch right or call right. Set all or dont set anything 
+  const batch = firestore.batch();
+ // FOREACH() is almost the same as .map() but Foreach() doesn't return array
+ objectsToAdd.forEach(obj => {
+   //get emty string. Firebase gives new doc ref for this collection. Generate random ID
+   const newDocRef = collectionRef.doc();
+   batch.set(newDocRef, obj);
+ });
+ // fire off batch request. Returns a promise. When commit succeeds it will come back and resolve void value (NULL)
+ return await batch.commit()
+} 
+
 
   export const auth = firebase.auth();
   export const firestore = firebase.firestore();
